@@ -3,101 +3,73 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, 'Username is required'],
     unique: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true,
-    trim: true
+    trim: true,
+    minlength: [3, 'Username must be at least 3 characters'],
+    maxlength: [20, 'Username cannot exceed 20 characters']
   },
   email: {
     type: String,
-    required: true,
+    required: [true, 'Email is required'],
     unique: true,
     lowercase: true,
+    match: [/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, 'Please enter a valid email']
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    minlength: [6, 'Password must be at least 6 characters'],
+    select: false // Don't return in queries
+  },
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
     trim: true
   },
   role: {
     type: String,
-    enum: ['admin', 'teacher', 'student', 'parent'],
-    required: true
+    enum: ['student', 'teacher', 'admin', 'parent'],
+    default: 'student'
   },
-  image: {
-    type: String,
-    default: ''
+  isActive: {
+    type: Boolean,
+    default: true
   },
-  phone: {
-    type: String,
-    default: ''
+  isVerified: {
+    type: Boolean,
+    default: false
   },
-  address: {
-    type: String,
-    default: ''
-  },
-  // Teacher-specific fields
-  subjects: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Subject'
-  }],
-  // For teacher: which classes they teach
-  teachingClasses: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Class'
-  }],
-  
-  // Student-specific fields
-  grade: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Grade'
+  avatar: {
+    type: String, // Cloudinary URL
+    default: null
   },
   class: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Class'
   },
-  parent: {
+  grade: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Grade'
   },
-  // For tracking student's attendance
-  attendance: [{
-    date: Date,
-    status: {
-      type: String,
-      enum: ['present', 'absent', 'late', 'excused']
-    }
-  }],
-  // Parent-specific fields
-  students: [{
+  subjects: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Subject'
   }],
-  // Common for all
-  isActive: {
-    type: Boolean,
-    default: true
+  lastLogin: {
+    type: Date
   },
-  bloodGroup: {
-    type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', '']
-  },
-  dateOfBirth: Date,
-  joinDate: {
-    type: Date,
-    default: Date.now
-  }
+  resetPasswordToken: String,
+  resetPasswordExpire: Date
 }, {
   timestamps: true
 });
 
-// Add index for better query performance
+// Index for faster queries
+userSchema.index({ email: 1 });
+userSchema.index({ username: 1 });
 userSchema.index({ role: 1 });
-userSchema.index({ class: 1 });
-userSchema.index({ parent: 1 });
+userSchema.index({ isActive: 1 });
 
 module.exports = mongoose.model('User', userSchema);
+

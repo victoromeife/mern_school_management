@@ -175,4 +175,113 @@ router.post('/logout', (req, res) => {
   });
 });
 
+// @desc Forgot password - send reset link
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'Email not found' });
+    }
+
+    // Generate reset token
+    const token = require('crypto').randomBytes(32).toString('hex');
+    const resetToken = new ResetToken({
+      userId: user._id,
+      token,
+      type: 'passwordReset',
+      expiresAt: Date.now() + 3600000 // 1 hour
+    });
+    await resetToken.save();
+
+    // In production, send email with reset link: /reset-password?token=${token}
+    // Mock for now
+    console.log(`Reset token for ${email}: ${token}`);
+
+    res.json({ 
+      message: 'Reset link sent to your email (check console for token)' 
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc Reset password with token
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const resetToken = await ResetToken.findOne({
+      token,
+      type: 'passwordReset',
+      expiresAt: { $gt: Date.now() }
+    });
+
+    if (!resetToken) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await User.findByIdAndUpdate(resetToken.userId, { password: hashedPassword });
+    await ResetToken.findByIdAndDelete(resetToken._id);
+
+    res.json({ message: 'Password reset successful' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc Verify email
+router.post('/verify-email', async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const resetToken = await ResetToken.findOne({
+      token,
+      type: 'emailVerification',
+      expiresAt: { $gt: Date.now() }
+    });
+
+    if (!resetToken) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    await User.findByIdAndUpdate(resetToken.userId, { isVerified: true });
+    await ResetToken.findByIdAndDelete(resetToken._id);
+
+    res.json({ message: 'Email verified successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc Resend verification
+router.post('/resend-verification', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email, isVerified: false });
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found or already verified' });
+    }
+
+    const token = require('crypto').randomBytes(32).toString('hex');
+    const resetToken = new ResetToken({
+      userId: user._id,
+      token,
+      type: 'emailVerification',
+      expiresAt: Date.now() + 3600000 // 1 hour
+    });
+    await resetToken.save();
+
+    console.log(`Verification token for ${email}: ${token}`);
+
+    res.json({ message: 'Verification link sent (check console)' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;  

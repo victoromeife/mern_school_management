@@ -16,6 +16,7 @@ const Assignment = require('./models/Assignment');
 const Event = require('./models/Event');
 const Announcement = require('./models/Announcement');
 const ExamResult = require('./models/ExamResult')
+const ResetToken = require('./models/ResetToken')
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');

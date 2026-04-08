@@ -18,7 +18,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  // Mock notifications - replace with real data
+  // Notifications
   const notifications = [
     { id: 1, title: 'New assignment posted: Math Homework', time: '5 min ago', read: false },
     { id: 2, title: 'Parent-teacher meeting scheduled', time: '1 hour ago', read: false },
@@ -55,15 +55,15 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               aria-label="Toggle menu"
             >
               {sidebarOpen ? (
-                <XMarkIcon className="w-5 h-5" />
+                <XMarkIcon className="size-5" />
               ) : (
-                <Bars3Icon className="w-5 h-5" />
+                <Bars3Icon className="size-5" />
               )}
             </button>
 
             {/* Desktop Search */}
             <div className="hidden md:block relative">
-              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-surface-400 dark:text-gray-500" />
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-surface-400 dark:text-gray-500" />
               <input
                 type="text"
                 placeholder="Search classes, assignments, people..."
@@ -77,7 +77,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               className="md:hidden p-2 rounded-lg text-surface-500 dark:text-gray-400 hover:bg-surface-100 dark:hover:bg-gray-800 hover:text-surface-900 dark:hover:text-gray-200 transition-colors"
               aria-label="Search"
             >
-              <MagnifyingGlassIcon className="w-5 h-5" />
+              <MagnifyingGlassIcon className="size-5" />
             </button>
           </div>
 
