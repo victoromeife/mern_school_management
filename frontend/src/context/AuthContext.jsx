@@ -114,6 +114,7 @@ export const AuthProvider = ({ children }) => {
     isTeacher,
     isStudent,
     isParent,
+    updateUser,
     login,
     register,
     logout,

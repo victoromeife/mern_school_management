@@ -32,20 +32,20 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     <motion.aside
       initial={{ x: -300 }}
       animate={{ x: isOpen ? 0 : -300 }}
-      className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 shadow-xl ${collapsed ? 'w-20' : 'w-72'}`}
+      className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-surface-800 border-r border-surface-200 dark:border-surface-700 transition-all duration-300 shadow-xl ${collapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
+      <div className="h-16 flex items-center px-6 border-b border-surface-200 dark:border-surface-700">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gradient-to-br from-cyan-400 to-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-inner">E</div>
-          {!collapsed && <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">EduFlow</span>}
+          <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-accent-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-inner">E</div>
+          {!collapsed && <span className="text-2xl font-bold tracking-tight text-surface-900 dark:text-white">EduFlow</span>}
         </div>
 
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="ml-auto hidden lg:block p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="ml-auto hidden lg:block p-2 rounded-xl hover:bg-surface-100 dark:hover:bg-surface-700"
         >
-          {collapsed ? <ChevronRightIcon className="w-5 h-5" /> : <ChevronLeftIcon className="w-5 h-5" />}
+          {collapsed ? <ChevronRightIcon className="w-5 h-5 text-surface-700 dark:text-surface-300" /> : <ChevronLeftIcon className="w-5 h-5 text-surface-700 dark:text-surface-300" />}
         </button>
       </div>
 
@@ -57,8 +57,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             to={item.href}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive
-                ? 'bg-indigo-600 text-white shadow-lg'
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900'
+                ? 'bg-primary-600 text-white shadow-lg'
+                : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700'
               } ${collapsed ? 'justify-center' : ''}`
             }
           >
@@ -69,10 +69,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+      <div className="p-4 border-t border-surface-200 dark:border-surface-700">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-2xl transition-colors"
+          className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-2xl transition-colors"
         >
           <ArrowRightOnRectangleIcon className="w-5 h-5" />
           {!collapsed && <span className="font-medium">Logout</span>}

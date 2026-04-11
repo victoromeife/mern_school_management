@@ -13,6 +13,7 @@ const ProtectedRoute = lazy(() => import('./components/auth/ProtectedRoute'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
+const AdminRegister = lazy(() => import('./pages/AdminRegister'));
 const Users = lazy(() => import('./pages/Users'));
 const Classes = lazy(() => import('./pages/Classes'));
 const Subjects = lazy(() => import('./pages/Subjects'));
@@ -38,7 +39,7 @@ const queryClient = new QueryClient({
 
 // Loading component
 const PageLoader = () => (
-  <div className="min-h-screen bg-surface-50 flex items-center justify-center">
+  <div className="min-h-screen bg-surface-50 dark:bg-surface-900 flex items-center justify-center">
     <div className="text-center">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
       <p className="text-surface-500">Loading...</p>
@@ -57,6 +58,7 @@ function App() {
                 <Routes>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/admin-register" element={<AdminRegister />} />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/verify-email" element={<VerifyEmail />} />

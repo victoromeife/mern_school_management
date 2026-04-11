@@ -73,40 +73,40 @@ const VerifyEmail = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-surface-50 to-primary-50 dark:from-surface-900 dark:to-surface-800 flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-md w-full">
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl shadow-lg mb-4">
                         <span className="text-white font-bold text-2xl">E</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-white">Email Verification</h1>
+                    <h1 className="text-3xl font-bold text-surface-900 dark:text-white">Email Verification</h1>
                 </div>
 
-                <Card className='bg-gray-800'>
+                <Card>
                     {token ? (
                             success ? (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4">
-                                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                                        <CheckCircleIcon className="size-8 text-green-600" />
+                                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+                                        <CheckCircleIcon className="size-8 text-green-600 dark:text-green-400" />
                                     </div>
-                                    <h3 className="text-xl font-semibold text-surface-900">Email Verified!</h3>
-                                    <p className="text-surface-600">Your email has been successfully verified.</p>
-                                    <p className="text-sm text-surface-500">Redirecting to login...</p>
-                                    <Link to="/login" className="inline-block mt-2 text-primary-600 hover:text-primary-700 font-medium">
+                                    <h3 className="text-xl font-semibold text-surface-900 dark:text-white">Email Verified!</h3>
+                                    <p className="text-surface-600 dark:text-surface-400">Your email has been successfully verified.</p>
+                                    <p className="text-sm text-surface-500 dark:text-surface-500">Redirecting to login...</p>
+                                    <Link to="/login" className="inline-block mt-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
                                         Click here if not redirected
                                     </Link>
                                 </motion.div>
                         ) : (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4">
-                                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-                                    <XCircleIcon className="w-8 h-8 text-red-600" />
+                                <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto">
+                                    <XCircleIcon className="w-8 h-8 text-red-600 dark:text-red-400" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-surface-900">Verification Failed</h3>
-                                <p className="text-surface-600">
+                                <h3 className="text-xl font-semibold text-surface-900 dark:text-white">Verification Failed</h3>
+                                <p className="text-surface-600 dark:text-surface-400">
                                     {error || 'The verification link is invalid or has expired.'}
                                 </p>
-                                <Link to="/login" className="inline-block text-primary-600 hover:text-primary-700 font-medium">
+                                <Link to="/login" className="inline-block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
                                     Return to login
                                 </Link>
                             </motion.div>
@@ -114,11 +114,11 @@ const VerifyEmail = () => {
                     ) : (
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                             <div className="text-center">
-                                <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <EnvelopeIcon className="w-8 h-8 text-primary-600" />
+                                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <EnvelopeIcon className="w-8 h-8 text-primary-600 dark:text-primary-400" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-white/100">Verify your email</h3>
-                                <p className="text-surface-600 mt-2">
+                                <h3 className="text-xl font-semibold text-surface-900 dark:text-white">Verify your email</h3>
+                                <p className="text-surface-600 dark:text-surface-400 mt-2">
                                     We've sent a verification link to your email address.
                                     Please check your inbox and click the link to verify your account.
                                 </p>
@@ -132,7 +132,7 @@ const VerifyEmail = () => {
                                 </Button>
 
                                 <div className="text-center">
-                                    <Link to="/login" className="text-sm text-surface-600 hover:text-primary-600 transition-colors">
+                                    <Link to="/login" className="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                         Back to login
                                     </Link>
                                 </div>

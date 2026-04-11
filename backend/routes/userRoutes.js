@@ -2,7 +2,93 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Class = require('../models/Class');
 const { protect, authorize } = require('../middleware/authMiddleware');
+
+// ==================== SPECIFIC ROUTES (Must come before :id) ====================
+
+// Get all teachers
+router.get('/teachers', protect, async (req, res) => {
+    try {
+        const teachers = await User.find({ role: 'teacher', isActive: true })
+            .select('-password')
+            .populate('subjects', 'name code');
+    
+        res.json({ teachers });
+    
+    } 
+    catch (error) {
+        console.error('Get teachers error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+// Get all students
+router.get('/students', protect, async (req, res) => {
+    try {
+        const students = await User.find({ role: 'student', isActive: true })
+            .select('-password')
+            .populate('class', 'name section')
+            .populate('grade', 'name level')
+            .populate('parent', 'name email');
+    
+        res.json({ students });
+    
+    } 
+    catch (error) {
+        console.error('Get students error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+// Get all parents
+router.get('/parents', protect, async (req, res) => {
+    try {
+        const parents = await User.find({ role: 'parent', isActive: true })
+            .select('-password')
+            .populate('students', 'name email class grade');
+    
+        res.json({ parents });
+    
+    } 
+    catch (error) {
+        console.error('Get parents error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+// Get students by class
+router.get('/class/:classId', protect, async (req, res) => {
+    try {
+        const { classId } = req.params;
+    
+        // Check if user is authorized (teacher of this class or admin)
+        if (req.user.role !== 'admin') {
+            // Check if teacher teaches this class
+            const classDoc = await Class.findById(classId);
+            if (!classDoc.classTeacher || classDoc.classTeacher.toString() !== req.user._id.toString()) {
+                return res.status(403).json({ 
+                    message: 'Not authorized to view students of this class' 
+                });
+            }
+        }
+    
+        const students = await User.find({ 
+            role: 'student', 
+            class: classId,
+            isActive: true 
+        }).select('-password');
+    
+        res.json({ students });
+    
+    } 
+    catch (error) {
+        console.error('Get class students error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+// ==================== GENERAL ROUTES ====================
 
 router.get('/', protect, authorize('admin'), async (req, res) => {
     try {
@@ -253,87 +339,6 @@ router.delete('/:id/hard', protect, authorize('admin'), async (req, res) => {
     } 
     catch (error) {
         console.error('Hard delete user error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-});
-
-// Get all teachers
-router.get('/teachers', protect, async (req, res) => {
-    try {
-        const teachers = await User.find({ role: 'teacher', isActive: true })
-            .select('-password')
-            .populate('subjects', 'name code');
-    
-        res.json({ teachers });
-    
-    } 
-    catch (error) {
-        console.error('Get teachers error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-});
-
-// Get all students
-router.get('/students', protect, async (req, res) => {
-    try {
-        const students = await User.find({ role: 'student', isActive: true })
-            .select('-password')
-            .populate('class', 'name section')
-            .populate('grade', 'name level')
-            .populate('parent', 'name email');
-    
-        res.json({ students });
-    
-    } 
-    catch (error) {
-        console.error('Get students error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-});
-
-// Get all parents
-router.get('/parents', protect, async (req, res) => {
-    try {
-        const parents = await User.find({ role: 'parent', isActive: true })
-            .select('-password')
-            .populate('students', 'name email class grade');
-    
-        res.json({ parents });
-    
-    } 
-    catch (error) {
-        console.error('Get parents error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-});
-
-// Get students by class
-router.get('/class/:classId', protect, async (req, res) => {
-    try {
-        const { classId } = req.params;
-    
-        // Check if user is authorized (teacher of this class or admin)
-        if (req.user.role !== 'admin') {
-            // Check if teacher teaches this class
-            const classDoc = await Class.findById(classId);
-            if (!classDoc.classTeacher || classDoc.classTeacher.toString() !== req.user._id.toString()) {
-                return res.status(403).json({ 
-                    message: 'Not authorized to view students of this class' 
-                });
-            }
-        }
-    
-        const students = await User.find({ 
-            role: 'student', 
-            class: classId,
-            isActive: true 
-        }).select('-password');
-    
-        res.json({ students });
-    
-    } 
-    catch (error) {
-        console.error('Get class students error:', error);
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 });

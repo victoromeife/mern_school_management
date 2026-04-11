@@ -73,16 +73,16 @@ const ResetPassword = () => {
 
     if (!isValid) {
         return (
-            <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-gradient-to-br from-surface-50 to-primary-50 dark:from-surface-900 dark:to-surface-800 flex items-center justify-center p-4">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full text-center">
-                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <ExclamationCircleIcon className="size-8 text-red-600" />
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <ExclamationCircleIcon className="size-8 text-red-600 dark:text-red-400" />
                     </div>
-                    <h2 className="text-2xl font-bold text-surface-900 mb-2">Invalid Reset Link</h2>
-                    <p className="text-surface-600 mb-6">
+                    <h2 className="text-2xl font-bold text-surface-900 dark:text-white mb-2">Invalid Reset Link</h2>
+                    <p className="text-surface-600 dark:text-surface-400 mb-6">
                         {error || 'The password reset link is invalid or has expired.'}
                     </p>
-                    <Link to="/forgot-password" className="inline-block text-primary-600 hover:text-primary-700 font-medium">
+                    <Link to="/forgot-password" className="inline-block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
                         Request a new reset link
                     </Link>
                 </motion.div>
@@ -91,15 +91,15 @@ const ResetPassword = () => {
     }
 
     return (
-        <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-surface-50 to-primary-50 dark:from-surface-900 dark:to-surface-800 flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-md w-full">
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl shadow-lg mb-4">
                         <span className="text-white font-bold text-2xl">E</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-surface-900">Create new password</h1>
-                    <p className="text-surface-600 mt-2">Enter your new password below</p>
+                    <h1 className="text-3xl font-bold text-surface-900 dark:text-white">Create new password</h1>
+                    <p className="text-surface-600 dark:text-surface-400 mt-2">Enter your new password below</p>
                 </div>
 
                 <Card>
@@ -111,7 +111,7 @@ const ResetPassword = () => {
                         <Button type="submit" variant="primary" size="lg" className="w-full" isLoading={loading}>Reset Password</Button>
 
                         <div className="text-center">
-                            <Link to="/login" className="text-sm text-surface-600 hover:text-primary-600 transition-colors">
+                            <Link to="/login" className="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 Back to login
                             </Link>
                         </div>

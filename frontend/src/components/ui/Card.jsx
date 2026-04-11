@@ -16,7 +16,7 @@ const Card = ({
       transition={{ duration: 0.3 }}
       whileHover={hover ? { y: -4, transition: { duration: 0.2 } } : {}}
       className={`
-        bg-white rounded-xl shadow-sm border border-surface-200
+        bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700
         ${padding}
         ${hover ? 'cursor-pointer hover:shadow-lg transition-shadow' : ''}
         ${className}

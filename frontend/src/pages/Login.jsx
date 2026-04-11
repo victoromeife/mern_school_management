@@ -56,7 +56,7 @@ const Login = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <Card className="p-8 bg-gray-800">
+          <Card className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Field */}
               <Input

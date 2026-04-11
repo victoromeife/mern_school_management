@@ -35,10 +35,10 @@ const Exams = () => {
 
   const getStatusColor = (date) => {
     const daysUntil = differenceInDays(new Date(date), new Date());
-    if (daysUntil < 0) return 'bg-gray-100 text-gray-700';
-    if (daysUntil <= 3) return 'bg-red-100 text-red-700';
-    if (daysUntil <= 7) return 'bg-yellow-100 text-yellow-700';
-    return 'bg-green-100 text-green-700';
+    if (daysUntil < 0) return 'bg-surface-100 dark:bg-surface-700 text-surface-700 dark:text-surface-300';
+    if (daysUntil <= 3) return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400';
+    if (daysUntil <= 7) return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400';
+    return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400';
   };
 
   const getStatusText = (date) => {
@@ -56,8 +56,8 @@ const Exams = () => {
       className="space-y-6"
     >
       <div>
-        <h1 className="text-2xl font-bold text-surface-900">Exams</h1>
-        <p className="text-surface-500 mt-1">Upcoming and past examinations</p>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Exams</h1>
+        <p className="text-surface-500 dark:text-surface-400 mt-1">Upcoming and past examinations</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -89,13 +89,13 @@ const Exams = () => {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(exam.date)}`}>
                         {getStatusText(exam.date)}
                       </span>
-                      <p className="text-xs text-surface-400 mt-1">{exam.totalMarks} marks</p>
+                      <p className="text-xs text-surface-400 dark:text-surface-500 mt-1">{exam.totalMarks} marks</p>
                     </div>
                   </div>
                 </div>
               ))}
             {exams.filter(e => new Date(e.date) >= new Date()).length === 0 && (
-              <p className="text-center text-surface-500 py-8">No upcoming exams</p>
+              <p className="text-center text-surface-500 dark:text-surface-400 py-8">No upcoming exams</p>
             )}
           </div>
         </Card>

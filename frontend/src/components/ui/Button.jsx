@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const variants = {
-  primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
-  secondary: 'bg-white text-surface-700 border border-surface-300 hover:bg-surface-50 focus:ring-primary-500',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-  ghost: 'text-surface-600 hover:bg-surface-100 focus:ring-surface-500',
+  primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 dark:hover:bg-primary-700',
+  secondary: 'bg-surface-100 dark:bg-surface-700 text-surface-900 dark:text-surface-100 border border-surface-300 dark:border-surface-600 hover:bg-surface-200 dark:hover:bg-surface-600 focus:ring-primary-500',
+  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 dark:hover:bg-red-700',
+  ghost: 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700 focus:ring-surface-500',
 };
 
 const sizes = {

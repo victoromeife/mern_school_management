@@ -1,148 +1,48 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
-
-// Load environment variables
-dotenv.config();
-
-// Import models
-const User = require('./models/User');
-const Subject = require('./models/Subject');
-const Class = require('./models/Class');
-const Grade = require('./models/Grade');
-const Exam = require('./models/Exam');
-const Assignment = require('./models/Assignment');
-const Event = require('./models/Event');
-const Announcement = require('./models/Announcement');
-const ExamResult = require('./models/ExamResult')
-const ResetToken = require('./models/ResetToken')
+require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-const gradeRoutes = require('./routes/gradeRoutes');
-const subjectRoutes = require('./routes/subjectRoutes');
 const classRoutes = require('./routes/classRoutes');
+const subjectRoutes = require('./routes/subjectRoutes');
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 const examRoutes = require('./routes/examRoutes');
 const resultRoutes = require('./routes/resultRoutes');
-const assignmentRoutes = require('./routes/assignmentRoutes');
-const eventRoutes = require('./routes/eventRoutes');
-const announcementRoutes = require('./routes/announcementRoutes');
-
-// Import middleware
-const { protect, authorize } = require('./middleware/authMiddleware');
-
+const gradeRoutes = require('./routes/gradeRoutes');
 
 const app = express();
 
 // Middleware
-app.use(cors());              
-app.use(express.json());       
+app.use(cors());
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log('MongoDB connection error:', err));
+
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/grade', gradeRoutes);
-app.use('/api/subjects', subjectRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api/subjects', subjectRoutes);
+app.use('/api/assignments', assignmentRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/events', eventRoutes);
 app.use('/api/exams', examRoutes);
 app.use('/api/results', resultRoutes);
-app.use('/api/assignments', assignmentRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/announcements', announcementRoutes);
+app.use('/api/grades', gradeRoutes);
 
-// Test route to see middleware in action
-app.get('/api/profile', protect, (req, res) => {
-  res.json({ 
-    message: 'This is a protected route', 
-    user: req.user 
-  });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Server error' });
 });
-
-app.get('/api/admin-only', protect, authorize('admin'), (req, res) => {
-  res.json({ 
-    message: 'This is admin only', 
-    user: req.user 
-  });
-});
-
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Backend working!' });
-});
-
-// Test class route 
-app.get('/api/test-class', async (req, res) => {
-  try {
-    const classCount = await Class.countDocuments();
-    res.json({ 
-      message: 'Class model is working!', 
-      totalClasses: classCount,
-      modelLoaded: true 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get('/api/test-grade', async (req, res) => {
-  try {
-    const gradeCount = await Grade.countDocuments();
-    res.json({ 
-      message: 'Grade model is working!', 
-      totalGrades: gradeCount,
-      modelLoaded: true 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get('/api/test-exam', async (req, res) => {
-  try {
-    const examCount = await Exam.countDocuments();
-    res.json({ 
-      message: 'Exam model is working!', 
-      totalExams: examCount,
-      modelLoaded: true 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get('/api/test-assignment', async (req, res) => {
-  try {
-    const assignmentCount = await Assignment.countDocuments();
-    res.json({ 
-      message: 'Assignment model is working!', 
-      totalAssignments: assignmentCount,
-      modelLoaded: true 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected');
-    console.log('✅ Models loaded:', { 
-      User: !!User, 
-      Subject: !!Subject, 
-      Class: !!Class,
-      Grade: !!Grade, 
-      Exam: !!Exam,
-      Assignment: !!Assignment,
-      Event: !!Event,
-      Announcement: !!Announcement,
-      ExamResult: !!ExamResult
-    });
-  })
-  .catch(err => {
-    console.log('MongoDB error:', err);
-  });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

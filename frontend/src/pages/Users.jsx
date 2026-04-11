@@ -127,8 +127,8 @@ const Users = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-surface-900">User Management</h1>
-          <p className="text-surface-500 mt-1">Manage all users in the system</p>
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white">User Management</h1>
+          <p className="text-surface-500 dark:text-surface-400 mt-1">Manage all users in the system</p>
         </div>
         <Button
           variant="primary"
