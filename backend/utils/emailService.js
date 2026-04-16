@@ -25,12 +25,40 @@ const sendVerificationEmail = async (email, token, userName) => {
         <html>
           <head>
             <style>
-              body { font-family: Arial, sans-serif; }
-              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-              .header { background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-              .content { background: #f9fafb; padding: 20px; }
-              .button { display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
-              .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 20px; }
+              body { 
+                font-family: Arial, 
+                sans-serif; 
+              }
+              .container { 
+                max-width: 600px; 
+                margin: 0 auto; 
+                padding: 20px; 
+              }
+              .header { 
+                background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); 
+                color: white; 
+                padding: 20px; 
+                border-radius: 8px 8px 0 0; 
+              }
+              .content { 
+                background: #f9fafb; 
+                padding: 20px; 
+              }
+              .button { 
+                display: inline-block; 
+                background: #6366f1; 
+                color: white; 
+                padding: 12px 24px; 
+                text-decoration: none; 
+                border-radius: 6px; 
+                margin: 20px 0; 
+              }
+              .footer { 
+                text-align: center; 
+                color: #6b7280; 
+                font-size: 12px; 
+                margin-top: 20px; 
+              }
             </style>
           </head>
           <body>
@@ -81,13 +109,45 @@ const sendPasswordResetEmail = async (email, token, userName) => {
         <html>
           <head>
             <style>
-              body { font-family: Arial, sans-serif; }
-              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-              .header { background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-              .content { background: #f9fafb; padding: 20px; }
-              .button { display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
-              .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; }
-              .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 20px; }
+              body { 
+                font-family: Arial, sans-serif; 
+                }
+              .container { 
+                max-width: 600px; 
+                margin: 0 auto; 
+                padding: 20px; 
+                }
+              .header { 
+                background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); 
+                color: white; 
+                padding: 20px; 
+                border-radius: 8px 8px 0 0; 
+              }
+              .content { 
+                background: #f9fafb; 
+                padding: 20px; 
+              }
+              .button { 
+                display: inline-block; 
+                background: #6366f1; 
+                color: white; 
+                padding: 12px 24px; 
+                text-decoration: none; 
+                border-radius: 6px; 
+                margin: 20px 0; 
+              }
+              .warning { 
+                background: #fef3c7; 
+                border-left: 4px solid #f59e0b; 
+                padding: 15px; 
+                margin: 20px 0; 
+              }
+              .footer { 
+                text-align: center; 
+                color: #6b7280; 
+                font-size: 12px; 
+                margin-top: 20px; 
+              }
             </style>
           </head>
           <body>

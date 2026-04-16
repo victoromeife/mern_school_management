@@ -1,0 +1,14 @@
+{
+  "name": "mern-school-management",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd backend && npm install",
+    "start": "cd backend && node server.js"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.5"
+  }
+}
