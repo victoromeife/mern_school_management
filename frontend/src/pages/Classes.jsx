@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { PlusIcon, LayoutGridIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, Squares2X2Icon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
 import ClassCard from '../components/classes/ClassCard';
 import ClassModal from '../components/classes/ClassModal';
@@ -162,7 +162,7 @@ const Classes = () => {
                   : 'text-surface-500 hover:text-surface-700'
               }`}
             >
-              <LayoutGridIcon className="w-4 h-4" />
+              <Squares2X2Icon className="w-4 h-4" />
             </button>
             <button
               onClick={() => setView('schedule')}
