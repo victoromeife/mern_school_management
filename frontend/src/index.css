@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light dark;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    min-height: 100vh;
+    overscroll-behavior-y: none;
+    background-color: #f9fafb;
+    color: #111827;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body {
+    background-color: #111827;
+    color: #f9fafb;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  *:focus-visible {
+    outline: 2px solid rgba(99, 102, 241, 0.8);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: #c7d2fe;
+    color: #111827;
+  }
+
+  .react-hot-toast {
+    background: rgba(255, 255, 255, 0.96);
+    color: #111827;
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  }
+
+  .dark .react-hot-toast {
+    background: rgba(17, 24, 39, 0.96);
+    color: #f9fafb;
+    border: 1px solid rgba(51, 65, 85, 0.9);
+  }
+}

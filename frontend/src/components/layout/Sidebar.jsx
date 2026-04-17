@@ -27,6 +27,12 @@ const Sidebar = ({ isOpen, setIsOpen, collapsed, setCollapsed }) => {
     navigate('/login');
   };
 
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <motion.aside
       initial={{ x: -300 }}
@@ -42,6 +48,7 @@ const Sidebar = ({ isOpen, setIsOpen, collapsed, setCollapsed }) => {
 
         <button
           onClick={() => setCollapsed(!collapsed)}
+          aria-expanded={!collapsed}
           className="ml-auto hidden lg:block p-2 rounded-xl hover:bg-surface-100 dark:hover:bg-surface-700"
         >
           {collapsed ? <ChevronRightIcon className="w-5 h-5 text-surface-700 dark:text-surface-300" /> : <ChevronLeftIcon className="w-5 h-5 text-surface-700 dark:text-surface-300" />}
@@ -54,6 +61,7 @@ const Sidebar = ({ isOpen, setIsOpen, collapsed, setCollapsed }) => {
           <NavLink
             key={item.name}
             to={item.href}
+            onClick={handleNavClick}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive
                 ? 'bg-primary-600 text-white shadow-lg'
