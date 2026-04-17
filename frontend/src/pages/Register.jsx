@@ -47,6 +47,7 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
+        username: '',
         name: '',
         email: '',
         password: '',
@@ -77,6 +78,8 @@ const Register = () => {
 
     const validateStep2 = () => {
         const newErrors = {};
+        if (!formData.username) newErrors.username = 'Username is required';
+        else if (formData.username.length < 3) newErrors.username = 'Username must be at least 3 characters';
         if (!formData.name) newErrors.name = 'Full name is required';
         if (!formData.email) newErrors.email = 'Email is required';
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
@@ -105,6 +108,7 @@ const Register = () => {
 
         setLoading(true);
         const result = await register({
+            username: formData.username,
             name: formData.name,
             email: formData.email,
             password: formData.password,
@@ -212,6 +216,17 @@ const Register = () => {
                                   Your information
                                 </h2>
                                 <form onSubmit={handleSubmit} className="space-y-5">
+                                    <Input
+                                        label="Username"
+                                        name="username"
+                                        placeholder="johndoe"
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        error={errors.username}
+                                        icon={<UserIcon className="w-4 h-4 text-surface-400" />}
+                                        required
+                                    />
+
                                     <Input
                                         label="Full Name"
                                         name="name"
