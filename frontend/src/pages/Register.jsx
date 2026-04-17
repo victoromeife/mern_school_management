@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
@@ -14,7 +13,6 @@ import {
     EyeSlashIcon,
     AcademicCapIcon,
     UserGroupIcon,
-    IdentificationIcon,
     ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 
@@ -42,7 +40,6 @@ const roles = [
 const Register = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
-    const { isDark } = useTheme();
     const [step, setStep] = useState(1);
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -117,7 +114,8 @@ const Register = () => {
         setLoading(false);
 
         if (result.success) {
-            navigate('/verify-email');
+            // Navigate directly to dashboard after registration
+            navigate('/');
         }
     };
 
