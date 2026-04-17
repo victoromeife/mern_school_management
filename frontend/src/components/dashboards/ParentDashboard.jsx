@@ -121,7 +121,7 @@ const ParentDashboard = () => {
             {/* Children Performance Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {childrenData.map((child) => (
-                    <div key={child.name} className="bg-white rounded-xl shadow-sm border border-surface-200 p-6">
+                    <div key={child.name} className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div>
                                 <h3 className="text-lg font-semibold text-surface-900">{child.name}</h3>

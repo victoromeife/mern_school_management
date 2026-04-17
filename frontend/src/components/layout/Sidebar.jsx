@@ -18,10 +18,9 @@ const navigation = [
   { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
 ];
 
-const Sidebar = ({ isOpen, setIsOpen }) => {
+const Sidebar = ({ isOpen, setIsOpen, collapsed, setCollapsed }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = () => {
     logout();

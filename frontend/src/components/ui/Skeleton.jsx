@@ -15,7 +15,7 @@ const Skeleton = ({ variant = 'text', className = '' }) => {
 };
 
 export const SkeletonCard = () => (
-  <div className="bg-white rounded-xl shadow-sm border border-surface-200 p-5">
+  <div className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 p-5">
     <div className="flex items-start justify-between mb-4">
       <Skeleton variant="title" className="w-2/3" />
       <Skeleton variant="button" className="w-16" />

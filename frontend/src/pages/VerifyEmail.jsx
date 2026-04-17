@@ -88,7 +88,7 @@ const VerifyEmail = () => {
                             success ? (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4">
                                     <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
-                                        <CheckCircleIcon className="size-8 text-green-600 dark:text-green-400" />
+                                        <CheckCircleIcon className="w-8 h-8 text-green-600 dark:text-green-400" />
                                     </div>
                                     <h3 className="text-xl font-semibold text-surface-900 dark:text-white">Email Verified!</h3>
                                     <p className="text-surface-600 dark:text-surface-400">Your email has been successfully verified.</p>

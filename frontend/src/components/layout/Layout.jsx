@@ -7,7 +7,12 @@ import Breadcrumbs from './Breadcrumbs';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const location = useLocation();
+
+  const contentPaddingClass = sidebarOpen
+    ? sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-72'
+    : '';
 
   return (
     <div className="min-h-screen bg-surface-50 dark:bg-surface-900">
@@ -23,18 +28,18 @@ const Layout = () => {
               className="fixed inset-0 bg-black lg:hidden z-20"
               onClick={() => setSidebarOpen(false)}
             />
-            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+            <Sidebar
+              isOpen={sidebarOpen}
+              setIsOpen={setSidebarOpen}
+              collapsed={sidebarCollapsed}
+              setCollapsed={setSidebarCollapsed}
+            />
           </>
         )}
       </AnimatePresence>
 
       {/* Main content */}
-      <div
-        className={`
-          transition-all duration-300
-          ${sidebarOpen ? 'lg:pl-64' : ''}
-        `}
-      >
+      <div className={`transition-all duration-300 ${contentPaddingClass}`}>
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="p-4 sm:p-6 lg:p-8">

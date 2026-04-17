@@ -53,7 +53,7 @@ const Login = () => {
                 placeholder="you@school.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                icon={<EnvelopeIcon className="size-4 text-surface-400" />}
+                icon={<EnvelopeIcon className="w-4 h-4 text-surface-400" />}
                 required
               />
 
@@ -64,7 +64,7 @@ const Login = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  icon={<LockClosedIcon className="size-4 text-surface-400" />}
+                  icon={<LockClosedIcon className="w-4 h-4 text-surface-400" />}
                   required
                 />
                 <button
@@ -72,7 +72,7 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-9 text-surface-400 hover:text-surface-600 transition-colors"
                 >
-                  {showPassword ? <EyeSlashIcon className="size-4" /> : <EyeIcon className="size-4" />}
+                  {showPassword ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
                 </button>
               </div>
 

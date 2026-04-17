@@ -113,7 +113,7 @@ const Announcements = () => {
       <div className="space-y-4">
         {loading ? (
           [...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-surface-200 p-5 animate-pulse">
+            <div key={i} className="bg-white dark:bg-surface-800 rounded-xl border border-surface-200 dark:border-surface-700 p-5 animate-pulse">
               <div className="h-5 bg-surface-200 rounded w-1/3 mb-3"></div>
               <div className="h-4 bg-surface-200 rounded w-full mb-2"></div>
               <div className="h-4 bg-surface-200 rounded w-2/3"></div>

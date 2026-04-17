@@ -127,10 +127,10 @@ const ClassModal = ({ isOpen, onClose, onSubmit, classData = null, grades = [], 
             exit={{ opacity: 0, scale: 0.9 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-surface-800 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-surface-200 sticky top-0 bg-white">
-                <h2 className="text-xl font-semibold text-surface-900">
+              <div className="flex items-center justify-between p-4 border-b border-surface-200 dark:border-surface-700 sticky top-0 bg-white dark:bg-surface-800">
+                <h2 className="text-xl font-semibold text-surface-900 dark:text-white">
                   {classData ? 'Edit Class' : 'Create New Class'}
                 </h2>
                 <button

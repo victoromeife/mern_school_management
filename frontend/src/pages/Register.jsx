@@ -282,7 +282,7 @@ const Register = () => {
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
                                         error={errors.confirmPassword}
-                                        icon={<LockClosedIcon className="size-4 text-surface-400" />}
+                                        icon={<LockClosedIcon className="w-4 h-4 text-surface-400" />}
                                         required
                                     />
 

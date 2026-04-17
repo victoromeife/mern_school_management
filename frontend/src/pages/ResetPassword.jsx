@@ -76,7 +76,7 @@ const ResetPassword = () => {
             <div className="min-h-screen bg-gradient-to-br from-surface-50 to-primary-50 dark:from-surface-900 dark:to-surface-800 flex items-center justify-center p-4">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full text-center">
                     <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <ExclamationCircleIcon className="size-8 text-red-600 dark:text-red-400" />
+                        <ExclamationCircleIcon className="w-8 h-8 text-red-600 dark:text-red-400" />
                     </div>
                     <h2 className="text-2xl font-bold text-surface-900 dark:text-white mb-2">Invalid Reset Link</h2>
                     <p className="text-surface-600 dark:text-surface-400 mb-6">

@@ -158,8 +158,8 @@ const Classes = () => {
               onClick={() => setView('grid')}
               className={`p-2 rounded-lg transition-colors ${
                 view === 'grid'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-surface-500 hover:text-surface-700'
+                  ? 'bg-white dark:bg-surface-800 shadow-sm text-primary-600 dark:text-primary-300'
+                  : 'text-surface-500 hover:text-surface-700 dark:text-surface-300 dark:hover:text-surface-100'
               }`}
             >
               <Squares2X2Icon className="w-4 h-4" />
@@ -168,8 +168,8 @@ const Classes = () => {
               onClick={() => setView('schedule')}
               className={`p-2 rounded-lg transition-colors ${
                 view === 'schedule'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-surface-500 hover:text-surface-700'
+                  ? 'bg-white dark:bg-surface-800 shadow-sm text-primary-600 dark:text-primary-300'
+                  : 'text-surface-500 hover:text-surface-700 dark:text-surface-300 dark:hover:text-surface-100'
               }`}
             >
               <CalendarDaysIcon className="w-4 h-4" />
@@ -261,7 +261,7 @@ const Classes = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading ? (
               [...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white rounded-xl shadow-sm border border-surface-200 p-4 animate-pulse">
+                <div key={i} className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 p-4 animate-pulse">
                   <div className="h-20 bg-surface-200 rounded mb-4"></div>
                   <div className="h-4 bg-surface-200 rounded w-3/4 mb-2"></div>
                   <div className="h-4 bg-surface-200 rounded w-1/2"></div>

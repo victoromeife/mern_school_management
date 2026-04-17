@@ -92,8 +92,8 @@ const Events = () => {
               onClick={() => setView('list')}
               className={`p-2 rounded-lg transition-colors ${
                 view === 'list'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-surface-500 hover:text-surface-700'
+                  ? 'bg-white dark:bg-surface-800 shadow-sm text-primary-600 dark:text-primary-300'
+                  : 'text-surface-500 hover:text-surface-700 dark:text-surface-300 dark:hover:text-surface-100'
               }`}
             >
               List
@@ -102,8 +102,8 @@ const Events = () => {
               onClick={() => setView('calendar')}
               className={`p-2 rounded-lg transition-colors ${
                 view === 'calendar'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-surface-500 hover:text-surface-700'
+                  ? 'bg-white dark:bg-surface-800 shadow-sm text-primary-600 dark:text-primary-300'
+                  : 'text-surface-500 hover:text-surface-700 dark:text-surface-300 dark:hover:text-surface-100'
               }`}
             >
               <CalendarDaysIcon className="w-4 h-4" />

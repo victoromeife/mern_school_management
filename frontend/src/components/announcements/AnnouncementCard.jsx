@@ -22,19 +22,19 @@ const categoryIcons = {
 };
 
 const categoryColors = {
-  general: 'bg-blue-100 text-blue-700',
-  academic: 'bg-purple-100 text-purple-700',
-  administrative: 'bg-gray-100 text-gray-700',
-  emergency: 'bg-red-100 text-red-700',
-  'event-reminder': 'bg-green-100 text-green-700',
-  achievement: 'bg-yellow-100 text-yellow-700',
+  general: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200',
+  academic: 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200',
+  administrative: 'bg-gray-100 dark:bg-surface-700 text-gray-700 dark:text-surface-300',
+  emergency: 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200',
+  'event-reminder': 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200',
+  achievement: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200',
 };
 
 const priorityColors = {
   low: 'border-l-4 border-gray-300',
   normal: 'border-l-4 border-blue-400',
   high: 'border-l-4 border-orange-400',
-  urgent: 'border-l-4 border-red-500 bg-red-50/30',
+  urgent: 'border-l-4 border-red-500 bg-red-50/30 dark:bg-red-600/20',
 };
 
 const AnnouncementCard = ({ announcement, onAcknowledge, isTeacher = false }) => {
@@ -52,7 +52,7 @@ const AnnouncementCard = ({ announcement, onAcknowledge, isTeacher = false }) =>
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className={`bg-white rounded-xl shadow-sm border border-surface-200 overflow-hidden transition-all hover:shadow-md ${priorityColors[announcement.priority]}`}
+      className={`bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden transition-all hover:shadow-md ${priorityColors[announcement.priority]}`}
     >
       <div className="p-5">
         {/* Header */}

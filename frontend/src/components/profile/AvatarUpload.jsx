@@ -82,7 +82,7 @@ const AvatarUpload = ({ currentAvatar, onUpload, size = 'lg' }) => {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
-          className="absolute bottom-0 right-0 p-1.5 bg-white rounded-full shadow-md border border-surface-200 hover:bg-surface-50 transition-colors disabled:opacity-50"
+          className="absolute bottom-0 right-0 p-1.5 bg-white dark:bg-surface-800 rounded-full shadow-md border border-surface-200 dark:border-surface-700 hover:bg-surface-50 transition-colors disabled:opacity-50"
         >
           <CameraIcon className="w-4 h-4 text-surface-600" />
         </button>

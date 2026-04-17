@@ -96,8 +96,8 @@ const ClassStudents = ({ students = [], availableStudents = [], onAddStudent, on
       {/* Add Student Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <h3 className="text-lg font-semibold text-surface-900 mb-4">Add Student</h3>
+          <div className="bg-white dark:bg-surface-800 rounded-xl shadow-xl w-full max-w-md p-6">
+            <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-4">Add Student</h3>
             <select
               value={selectedStudent}
               onChange={(e) => setSelectedStudent(e.target.value)}

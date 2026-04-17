@@ -28,7 +28,7 @@ const EventCard = ({ event, onEdit, onDelete, isAdmin = false }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
-      className="bg-white rounded-xl shadow-sm border border-surface-200 overflow-hidden hover:shadow-md transition-all"
+      className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden hover:shadow-md transition-all"
     >
       {/* Date Badge */}
       <div className={`px-4 py-2 ${eventTypeColors[event.eventType]} flex items-center justify-between`}>
@@ -36,7 +36,7 @@ const EventCard = ({ event, onEdit, onDelete, isAdmin = false }) => {
           {event.allDay ? 'All Day' : `${event.startTime} - ${event.endTime}`}
         </span>
         {daysUntil >= 0 && daysUntil <= 7 && (
-          <span className="text-xs bg-white/50 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-white/50 dark:bg-white/10 px-2 py-0.5 rounded-full">
             {daysUntil === 0 ? 'Today' : `${daysUntil} days left`}
           </span>
         )}

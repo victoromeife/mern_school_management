@@ -28,11 +28,11 @@ const ClassCard = ({ classData, onEdit, onDelete }) => {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-xl shadow-sm border border-surface-200 overflow-hidden cursor-pointer hover:shadow-lg transition-all"
+      className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden cursor-pointer hover:shadow-lg transition-all"
       onClick={() => navigate(`/classes/${classData._id}`)}
     >
       {/* Header */}
-      <div className="p-4 border-b border-surface-200 bg-gradient-to-r from-surface-50 to-white">
+      <div className="p-4 border-b border-surface-200 dark:border-surface-700 bg-gradient-to-r from-surface-50 to-white dark:from-surface-800 dark:to-surface-800">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-lg font-semibold text-surface-900">
@@ -94,7 +94,7 @@ const ClassCard = ({ classData, onEdit, onDelete }) => {
           {classData.subjects?.slice(0, 3).map((item, idx) => (
             <span
               key={idx}
-              className="text-xs px-2 py-0.5 bg-white rounded-full border border-surface-200 text-surface-600"
+              className="text-xs px-2 py-0.5 bg-white dark:bg-surface-800 rounded-full border border-surface-200 dark:border-surface-700 text-surface-600 dark:text-surface-300"
             >
               {item.subject?.code || 'Subject'}
             </span>

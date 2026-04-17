@@ -16,7 +16,7 @@ const StatsCard = ({ title, value, icon: Icon, trend, color = 'primary', classNa
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className={`bg-white rounded-xl shadow-sm border border-surface-200 p-6 ${className}`}
+      className={`bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 p-6 ${className}`}
     >
       <div className="flex items-center justify-between">
         <div>

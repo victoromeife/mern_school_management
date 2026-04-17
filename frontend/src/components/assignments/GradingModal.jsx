@@ -42,9 +42,9 @@ const GradingModal = ({ isOpen, onClose, onSubmit, submission, assignment }) => 
             exit={{ opacity: 0, scale: 0.9 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg">
-              <div className="flex items-center justify-between p-4 border-b border-surface-200">
-                <h2 className="text-xl font-semibold text-surface-900">
+            <div className="bg-white dark:bg-surface-800 rounded-xl shadow-xl w-full max-w-lg">
+              <div className="flex items-center justify-between p-4 border-b border-surface-200 dark:border-surface-700">
+                <h2 className="text-xl font-semibold text-surface-900 dark:text-white">
                   Grade Submission
                 </h2>
                 <button onClick={onClose} className="p-1 rounded-lg text-surface-500 hover:bg-surface-100">

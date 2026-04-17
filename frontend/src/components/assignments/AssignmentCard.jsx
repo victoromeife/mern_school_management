@@ -38,7 +38,7 @@ const AssignmentCard = ({ assignment, role = 'student', onGrade }) => {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-xl shadow-sm border border-surface-200 overflow-hidden cursor-pointer hover:shadow-lg transition-all"
+      className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden cursor-pointer hover:shadow-lg transition-all"
       onClick={() => navigate(`/assignments/${assignment._id}`)}
     >
       <div className="p-4">
