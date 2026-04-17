@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -6,7 +6,8 @@ import { useTheme } from '../context/ThemeContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Card from '../components/ui/Card';
-import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import api from '../services/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,9 +15,24 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [adminExists, setAdminExists] = useState(true);
   const { login } = useAuth();
   const { isDark } = useTheme();
   const navigate = useNavigate();
+
+  // Check if admin exists on component mount
+  useEffect(() => {
+    const checkAdminExists = async () => {
+      try {
+        const response = await api.get('/users?role=admin&limit=1');
+        setAdminExists(response.data.users && response.data.users.length > 0);
+      } catch (error) {
+        // If error, assume admin might not exist
+        setAdminExists(false);
+      }
+    };
+    checkAdminExists();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -147,6 +163,19 @@ const Login = () => {
                 Create an account
               </Link>
             </div>
+
+            {/* Hidden Admin Registration Link - Only shows when no admin exists */}
+            {!adminExists && (
+              <div className="mt-4 pt-4 border-t border-surface-200 dark:border-gray-700">
+                <Link
+                  to="/admin-register"
+                  className="inline-flex items-center justify-center w-full gap-2 px-4 py-2 text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                >
+                  <ShieldCheckIcon className="w-4 h-4" />
+                  <span>First time? Register as Administrator</span>
+                </Link>
+              </div>
+            )}
           </Card>
         </motion.div>
 
