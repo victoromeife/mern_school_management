@@ -1,13 +1,17 @@
 const nodemailer = require('nodemailer');
 
-// Create transporter for email service
+// Create transporter with explicit SMTP settings for Gmail
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  debug: true, // Enable debug logging
+  debug: true,
+  connectionTimeout: 30000, // 30 seconds
+  socketTimeout: 30000, // 30 seconds
 });
 
 // Verify transporter configuration
