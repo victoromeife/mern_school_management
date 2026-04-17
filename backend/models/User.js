@@ -14,13 +14,13 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Email is required'],
     unique: true,
     lowercase: true,
-    match: [/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, 'Please enter a valid email']
+    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
   },
   password: {
     type: String,
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters'],
-    select: false // Don't return in queries
+    select: false
   },
   name: {
     type: String,
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     default: false
   },
   avatar: {
-    type: String, // Cloudinary URL
+    type: String,
     default: null
   },
   class: {
@@ -76,4 +76,3 @@ userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 
 module.exports = mongoose.model('User', userSchema);
-
