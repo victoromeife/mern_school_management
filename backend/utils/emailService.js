@@ -2,11 +2,21 @@ const nodemailer = require('nodemailer');
 
 // Create transporter for email service
 const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE || 'gmail',
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  debug: true, // Enable debug logging
+});
+
+// Verify transporter configuration
+transporter.verify(function(error, success) {
+  if (error) {
+    console.error('Email transporter error:', error);
+  } else {
+    console.log('Email server is ready to send messages');
+  }
 });
 
 /**
@@ -14,10 +24,15 @@ const transporter = nodemailer.createTransport({
  */
 const sendVerificationEmail = async (email, token, userName) => {
   try {
-    const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+    // Ensure FRONTEND_URL has no trailing slash
+    const frontendUrl = process.env.FRONTEND_URL.replace(/\/$/, '');
+    const verificationLink = `${frontendUrl}/verify-email?token=${token}`;
+    
+    console.log(`Attempting to send verification email to: ${email}`);
+    console.log(`Verification link: ${verificationLink}`);
     
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"EduFlow" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Verify Your Email - EduFlow',
       html: `
@@ -25,40 +40,12 @@ const sendVerificationEmail = async (email, token, userName) => {
         <html>
           <head>
             <style>
-              body { 
-                font-family: Arial, 
-                sans-serif; 
-              }
-              .container { 
-                max-width: 600px; 
-                margin: 0 auto; 
-                padding: 20px; 
-              }
-              .header { 
-                background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); 
-                color: white; 
-                padding: 20px; 
-                border-radius: 8px 8px 0 0; 
-              }
-              .content { 
-                background: #f9fafb; 
-                padding: 20px; 
-              }
-              .button { 
-                display: inline-block; 
-                background: #6366f1; 
-                color: white; 
-                padding: 12px 24px; 
-                text-decoration: none; 
-                border-radius: 6px; 
-                margin: 20px 0; 
-              }
-              .footer { 
-                text-align: center; 
-                color: #6b7280; 
-                font-size: 12px; 
-                margin-top: 20px; 
-              }
+              body { font-family: Arial, sans-serif; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+              .content { background: #f9fafb; padding: 20px; }
+              .button { display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+              .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 20px; }
             </style>
           </head>
           <body>
@@ -84,11 +71,12 @@ const sendVerificationEmail = async (email, token, userName) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log(`Verification email sent to ${email}`);
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Verification email sent to ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending verification email:', error);
+    console.error('Error sending verification email:', error.message);
+    console.error('Full error:', error);
     throw error;
   }
 };
@@ -98,10 +86,13 @@ const sendVerificationEmail = async (email, token, userName) => {
  */
 const sendPasswordResetEmail = async (email, token, userName) => {
   try {
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const frontendUrl = process.env.FRONTEND_URL.replace(/\/$/, '');
+    const resetLink = `${frontendUrl}/reset-password?token=${token}`;
+    
+    console.log(`Attempting to send password reset email to: ${email}`);
     
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"EduFlow" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Password Reset Request - EduFlow',
       html: `
@@ -109,45 +100,13 @@ const sendPasswordResetEmail = async (email, token, userName) => {
         <html>
           <head>
             <style>
-              body { 
-                font-family: Arial, sans-serif; 
-                }
-              .container { 
-                max-width: 600px; 
-                margin: 0 auto; 
-                padding: 20px; 
-                }
-              .header { 
-                background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); 
-                color: white; 
-                padding: 20px; 
-                border-radius: 8px 8px 0 0; 
-              }
-              .content { 
-                background: #f9fafb; 
-                padding: 20px; 
-              }
-              .button { 
-                display: inline-block; 
-                background: #6366f1; 
-                color: white; 
-                padding: 12px 24px; 
-                text-decoration: none; 
-                border-radius: 6px; 
-                margin: 20px 0; 
-              }
-              .warning { 
-                background: #fef3c7; 
-                border-left: 4px solid #f59e0b; 
-                padding: 15px; 
-                margin: 20px 0; 
-              }
-              .footer { 
-                text-align: center; 
-                color: #6b7280; 
-                font-size: 12px; 
-                margin-top: 20px; 
-              }
+              body { font-family: Arial, sans-serif; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #6366f1 0%, #10b981 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+              .content { background: #f9fafb; padding: 20px; }
+              .button { display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+              .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; }
+              .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 20px; }
             </style>
           </head>
           <body>
@@ -176,11 +135,12 @@ const sendPasswordResetEmail = async (email, token, userName) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log(`Password reset email sent to ${email}`);
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Password reset email sent to ${email}`, info.messageId);
     return true;
   } catch (error) {
-    console.error('Error sending password reset email:', error);
+    console.error('Error sending password reset email:', error.message);
+    console.error('Full error:', error);
     throw error;
   }
 };
