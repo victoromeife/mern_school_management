@@ -57,6 +57,27 @@ router.get('/parents', protect, async (req, res) => {
     }
 });
 
+// Get children for a parent
+router.get('/children', protect, authorize('parent'), async (req, res) => {
+    try {
+        const children = await User.find({ 
+            role: 'student', 
+            parent: req.user._id,
+            isActive: true 
+        })
+        .select('name email rollNumber class grade')
+        .populate('class', 'name section')
+        .populate('grade', 'name level');
+    
+        res.json(children);
+    
+    } 
+    catch (error) {
+        console.error('Get children error:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
 // Get students by class
 router.get('/class/:classId', protect, async (req, res) => {
     try {

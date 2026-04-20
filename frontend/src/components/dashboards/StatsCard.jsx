@@ -20,8 +20,8 @@ const StatsCard = ({ title, value, icon: Icon, trend, color = 'primary', classNa
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-surface-500">{title}</p>
-          <p className="text-3xl font-bold text-surface-900 mt-2">{value}</p>
+          <p className="text-sm font-medium text-surface-500 dark:text-surface-400">{title}</p>
+          <p className="text-3xl font-bold text-surface-900 dark:text-surface-100 mt-2">{value}</p>
           
           {trend !== undefined && (
             <div className="flex items-center gap-1 mt-2">
@@ -33,7 +33,7 @@ const StatsCard = ({ title, value, icon: Icon, trend, color = 'primary', classNa
               <span className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
                 {Math.abs(trend)}%
               </span>
-              <span className="text-xs text-surface-400">vs last month</span>
+              <span className="text-xs text-surface-400 dark:text-surface-500">vs last month</span>
             </div>
           )}
         </div>

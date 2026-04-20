@@ -68,7 +68,7 @@ const Layout = () => {
       <div className={`transition-all duration-300 ${contentPaddingClass}`}>
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <main id="main-content" className="p-4 sm:p-6 lg:p-8">
+        <main id="main-content" className="p-4 sm:p-6 lg:p-8 pb-20">
           <Breadcrumbs />
           
           {/* Page content with animation */}
@@ -82,6 +82,15 @@ const Layout = () => {
             <Outlet />
           </motion.div>
         </main>
+
+        {/* Footer */}
+        <footer className="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-800 border-t border-surface-200 dark:border-surface-700 px-4 sm:px-6 lg:px-8 py-3 text-center text-sm text-surface-500 dark:text-surface-400">
+          <div className="flex items-center justify-center gap-4">
+            <span>© 2026 EduFlow - School Management System</span>
+            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline">Built with ❤️ for better education</span>
+          </div>
+        </footer>
       </div>
     </div>
   );

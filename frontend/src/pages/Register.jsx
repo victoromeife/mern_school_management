@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
@@ -52,6 +53,26 @@ const Register = () => {
         role: '',
     });
     const [errors, setErrors] = useState({});
+    const [adminExists, setAdminExists] = useState(true);
+    const [checkingAdmin, setCheckingAdmin] = useState(true);
+
+    useEffect(() => {
+        let active = true;
+
+        const loadAdminStatus = async () => {
+            try {
+                const response = await api.get('/auth/admin-exists');
+                if (active) setAdminExists(response.data.exists);
+            } catch (error) {
+                if (active) setAdminExists(true);
+            } finally {
+                if (active) setCheckingAdmin(false);
+            }
+        };
+
+        loadAdminStatus();
+        return () => { active = false; };
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -318,6 +339,16 @@ const Register = () => {
                         </Link>
                     </p>
                 </div>
+                {!checkingAdmin && !adminExists && (
+                    <div className="text-center mt-4">
+                        <p className="text-sm text-surface-600 dark:text-gray-400">
+                            Need admin access?{' '}
+                            <Link to="/admin-register" className="text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium">
+                                Register the first admin
+                            </Link>
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );

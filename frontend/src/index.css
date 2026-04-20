@@ -18,8 +18,8 @@
   }
 
   .dark body {
-    background-color: #111827;
-    color: #f9fafb;
+    background-color: #0f172a;
+    color: #f1f5f9;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -56,5 +56,44 @@
     background: rgba(17, 24, 39, 0.96);
     color: #f9fafb;
     border: 1px solid rgba(51, 65, 85, 0.9);
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .dark body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .dark * {
+    color: black !important;
+    background: white !important;
+  }
+  
+  /* Hide UI elements that shouldn't print */
+  button, nav, aside, header:not(.print-header), .no-print {
+    display: none !important;
+  }
+  
+  /* Make table printable */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background: #f0f0f0 !important;
   }
 }

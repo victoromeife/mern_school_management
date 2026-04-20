@@ -22,6 +22,7 @@ const Assignments = lazy(() => import('./pages/Assignments'));
 const Announcements = lazy(() => import('./pages/Announcements'));
 const Events = lazy(() => import('./pages/Events'));
 const Exams = lazy(() => import('./pages/Exams'));
+const Results = lazy(() => import('./pages/Results'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -70,6 +71,7 @@ function App() {
                       <Route path="subjects" element={<Subjects />} />
                       <Route path="schedule" element={<Schedule />} />
                       <Route path="exams" element={<Exams />} />
+                      <Route path="results" element={<Results />} />
                       <Route path="assignments" element={<Assignments />} />
                       <Route path="announcements" element={<Announcements />} />
                       <Route path="events" element={<Events />} />
@@ -90,6 +92,19 @@ function App() {
               background: 'var(--toast-bg, #fff)',
               color: 'var(--toast-text, #1f2937)',
               borderRadius: '0.5rem',
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+            },
+            success: {
+              style: {
+                background: '#10b981',
+                color: 'white',
+              },
+            },
+            error: {
+              style: {
+                background: '#ef4444',
+                color: 'white',
+              },
             },
           }}
         />

@@ -8,6 +8,16 @@ const ResetToken = require('../models/ResetToken');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const { sendVerificationEmail, sendPasswordResetEmail } = require('../utils/emailService');
 
+router.get('/admin-exists', async (req, res) => {
+  try {
+    const adminExists = await User.exists({ role: 'admin' });
+    return res.json({ exists: Boolean(adminExists) });
+  } catch (error) {
+    console.error('Admin exists check error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Admin-only registration for first user as admin
 router.post('/admin-register', async (req, res) => {
   try {

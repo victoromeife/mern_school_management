@@ -13,9 +13,13 @@ const Breadcrumbs = () => {
     'classes': 'Classes',
     'subjects': 'Subjects',
     'schedule': 'Schedule',
+    'exams': 'Exams',
+    'results': 'Results',
     'assignments': 'Assignments',
     'announcements': 'Announcements',
+    'events': 'Events',
     'settings': 'Settings',
+    'profile': 'Profile',
   };
 
   return (

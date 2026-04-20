@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   AcademicCapIcon,
   ChartBarIcon,
   ClockIcon,
   TrophyIcon,
+  ArrowRightIcon,
 } from '@heroicons/react/24/outline';
 import StatsCard from './StatsCard';
 import ChartCard from './ChartCard';
@@ -21,6 +23,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
+import api from '../../services/api';
 
 const performanceData = [
   { subject: 'Math', score: 85 },
@@ -41,12 +44,92 @@ const progressData = [
 
 const StudentDashboard = () => {
   const { user } = useAuth();
-  const [stats] = useState({
-    gpa: 3.8,
-    attendance: 94,
-    completedAssignments: 18,
-    rank: 12,
+  const [stats, setStats] = useState({
+    gpa: 0,
+    attendance: 0,
+    completedAssignments: 0,
+    rank: 0,
   });
+  const [performanceData, setPerformanceData] = useState([]);
+  const [progressData, setProgressData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      // Fetch student results for stats and charts
+      const response = await api.get(`/results/student/${user._id}`);
+      const { results, stats: resultStats } = response.data;
+
+      // Calculate GPA from results
+      const gpa = results.length > 0 
+        ? (results.reduce((sum, result) => {
+            const percentage = (result.marksObtained / result.exam?.totalMarks) * 100;
+            return sum + (percentage >= 90 ? 4.0 : percentage >= 80 ? 3.0 : percentage >= 70 ? 2.0 : percentage >= 60 ? 1.0 : 0.0);
+          }, 0) / results.length).toFixed(1)
+        : 0;
+
+      setStats({
+        gpa: parseFloat(gpa),
+        attendance: 94, // This would come from attendance data
+        completedAssignments: 18, // This would come from assignments data
+        rank: 12, // This would be calculated from class rankings
+      });
+
+      // Prepare performance data by subject
+      const subjectPerformance = {};
+      results.forEach(result => {
+        const subjectName = result.subject?.name || 'Unknown';
+        const percentage = (result.marksObtained / result.exam?.totalMarks) * 100;
+        if (!subjectPerformance[subjectName]) {
+          subjectPerformance[subjectName] = { total: 0, count: 0 };
+        }
+        subjectPerformance[subjectName].total += percentage;
+        subjectPerformance[subjectName].count += 1;
+      });
+
+      const perfData = Object.entries(subjectPerformance).map(([subject, data]) => ({
+        subject,
+        score: Math.round(data.total / data.count),
+      }));
+      setPerformanceData(perfData);
+
+      // Mock progress data - in real app this would be historical data
+      setProgressData([
+        { month: 'Jan', grade: 75 },
+        { month: 'Feb', grade: 78 },
+        { month: 'Mar', grade: 82 },
+        { month: 'Apr', grade: 85 },
+        { month: 'May', grade: 88 },
+        { month: 'Jun', grade: 90 },
+      ]);
+
+    } catch (error) {
+      console.error('Failed to load dashboard data');
+      // Fallback to mock data
+      setPerformanceData([
+        { subject: 'Math', score: 85 },
+        { subject: 'Science', score: 78 },
+        { subject: 'English', score: 92 },
+        { subject: 'History', score: 88 },
+        { subject: 'Physics', score: 82 },
+      ]);
+      setProgressData([
+        { month: 'Jan', grade: 75 },
+        { month: 'Feb', grade: 78 },
+        { month: 'Mar', grade: 82 },
+        { month: 'Apr', grade: 85 },
+        { month: 'May', grade: 88 },
+        { month: 'Jun', grade: 90 },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const statsCards = [
     { title: 'GPA', value: stats.gpa, icon: AcademicCapIcon, trend: 5, color: 'primary' },
@@ -107,6 +190,46 @@ const StudentDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-6 text-white">
+        <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Link
+            to="/results"
+            className="flex items-center gap-3 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+          >
+            <AcademicCapIcon className="w-6 h-6" />
+            <div>
+              <p className="font-medium">View Results</p>
+              <p className="text-sm text-primary-100">Check your exam grades</p>
+            </div>
+            <ArrowRightIcon className="w-5 h-5 ml-auto" />
+          </Link>
+          <Link
+            to="/assignments"
+            className="flex items-center gap-3 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+          >
+            <ClockIcon className="w-6 h-6" />
+            <div>
+              <p className="font-medium">Assignments</p>
+              <p className="text-sm text-primary-100">View pending tasks</p>
+            </div>
+            <ArrowRightIcon className="w-5 h-5 ml-auto" />
+          </Link>
+          <Link
+            to="/schedule"
+            className="flex items-center gap-3 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+          >
+            <ChartBarIcon className="w-6 h-6" />
+            <div>
+              <p className="font-medium">Schedule</p>
+              <p className="text-sm text-primary-100">Check your timetable</p>
+            </div>
+            <ArrowRightIcon className="w-5 h-5 ml-auto" />
+          </Link>
+        </div>
       </div>
 
       <UpcomingItems />

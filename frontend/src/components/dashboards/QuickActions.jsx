@@ -36,10 +36,17 @@ const actions = [
     },
 ];
 
+const actionColorClasses = {
+  primary: 'bg-primary-50 text-primary-600 hover:bg-primary-100',
+  accent: 'bg-accent-50 text-accent-600 hover:bg-accent-100',
+  secondary: 'bg-secondary-50 text-secondary-600 hover:bg-secondary-100',
+  surface: 'bg-surface-100 text-surface-600 hover:bg-surface-200',
+};
+
 const QuickActions = () => {
     return (
         <Card>
-            <h3 className="text-lg font-semibold text-surface-900 mb-4">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-surface-900 dark:text-surface-100 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-3">
                 {actions.map((action, index) => (
                     <motion.div
@@ -50,12 +57,12 @@ const QuickActions = () => {
                     >
                         <Link
                             to={action.href}
-                            className="flex items-center gap-3 p-3 rounded-lg border border-surface-200 hover:border-primary-200 hover:bg-primary-50 transition-all group"
+                            className="flex items-center gap-3 p-3 rounded-lg border border-surface-200 dark:border-surface-700 hover:border-primary-200 hover:bg-primary-50 dark:hover:bg-surface-700 transition-all group"
                         >
-                            <div className={`w-8 h-8 rounded-lg bg-${action.color}-50 flex items-center justify-center group-hover:bg-${action.color}-100 transition-colors`}>
-                                <action.icon className={`w-4 h-4 text-${action.color}-600`} />
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${actionColorClasses[action.color]}`}>
+                                <action.icon className="w-4 h-4" />
                             </div>
-                            <span className="text-sm font-medium text-surface-700 group-hover:text-primary-700">
+                            <span className="text-sm font-medium text-surface-700 dark:text-surface-300 group-hover:text-primary-700 dark:group-hover:text-primary-400">
                                 {action.name}
                             </span>
                         </Link>

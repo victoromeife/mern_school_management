@@ -5,6 +5,7 @@ import {
   HomeIcon, UsersIcon, BookOpenIcon, AcademicCapIcon,
   CalendarIcon, ClipboardDocumentListIcon, MegaphoneIcon,
   Cog6ToothIcon, ArrowRightOnRectangleIcon, ChevronLeftIcon, ChevronRightIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
 
@@ -14,6 +15,8 @@ const navigation = [
   { name: 'Classes', href: '/classes', icon: BookOpenIcon },
   { name: 'Subjects', href: '/subjects', icon: AcademicCapIcon },
   { name: 'Schedule', href: '/schedule', icon: CalendarIcon },
+  { name: 'Exams', href: '/exams', icon: AcademicCapIcon },
+  { name: 'Results', href: '/results', icon: ChartBarIcon },
   { name: 'Assignments', href: '/assignments', icon: ClipboardDocumentListIcon },
   { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
 ];
