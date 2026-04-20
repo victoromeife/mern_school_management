@@ -219,7 +219,7 @@ const ParentDashboard = () => {
             className="space-y-6"
         >
             {/* Welcome Section */}
-            <div className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-accent-500 dark:from-primary-600 dark:to-accent-600 rounded-2xl p-6 text-white shadow-lg">
                 <h1 className="text-2xl font-bold">Welcome back, {user?.name || 'Parent'}!</h1>
                 <p className="text-primary-100 mt-1">Track your children's academic progress.</p>
             </div>

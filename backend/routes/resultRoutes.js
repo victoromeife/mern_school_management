@@ -312,6 +312,104 @@ router.get('/exam/:examId/student/:studentId', protect, async (req, res) => {
   }
 });
 
+router.post('/', protect, authorize('admin', 'teacher'), async (req, res) => {
+  try {
+    const { 
+      student, exam, subject, class: classId,
+      marksObtained, totalMarks, term, academicYear,
+      remarks 
+    } = req.body;
+    
+    // Validate required fields
+    if (!student || !exam || !subject || !classId || marksObtained === undefined || !totalMarks) {
+      return res.status(400).json({ 
+        message: 'Missing required fields: student, exam, subject, class, marksObtained, totalMarks' 
+      });
+    }
+    
+    // Check if result already exists
+    const existingResult = await ExamResult.findOne({ 
+      student, exam, subject 
+    });
+    
+    if (existingResult) {
+      return res.status(400).json({ 
+        message: 'Result already exists for this student, exam, and subject' 
+      });
+    }
+    
+    // Validate marks
+    if (marksObtained < 0 || marksObtained > totalMarks) {
+      return res.status(400).json({ 
+        message: `Marks obtained must be between 0 and ${totalMarks}` 
+      });
+    }
+    
+    // Calculate percentage and grade
+    const percentage = (marksObtained / totalMarks) * 100;
+    
+    let grade, gradePoints, status;
+    if (percentage >= 80) {
+      grade = 'A';
+      gradePoints = 4;
+      status = 'pass';
+    } else if (percentage >= 70) {
+      grade = 'B';
+      gradePoints = 3;
+      status = 'pass';
+    } else if (percentage >= 60) {
+      grade = 'C';
+      gradePoints = 2;
+      status = 'pass';
+    } else if (percentage >= 50) {
+      grade = 'D';
+      gradePoints = 1;
+      status = 'pass';
+    } else {
+      grade = 'F';
+      gradePoints = 0;
+      status = 'fail';
+    }
+    
+    // Create result
+    const result = await ExamResult.create({
+      student,
+      exam,
+      subject,
+      class: classId,
+      marksObtained,
+      totalMarks,
+      percentage,
+      grade,
+      gradePoints,
+      status,
+      term: term || 'Term 1',
+      academicYear: academicYear || new Date().getFullYear().toString(),
+      gradedBy: req.user._id,
+      remarks: remarks || '',
+      isPublished: false
+    });
+    
+    // Populate result for response
+    await result.populate([
+      { path: 'student', select: 'name email rollNumber' },
+      { path: 'exam', select: 'title date totalMarks' },
+      { path: 'subject', select: 'name code' },
+      { path: 'class', select: 'name section' },
+      { path: 'gradedBy', select: 'name' }
+    ]);
+    
+    res.status(201).json({
+      message: 'Result created successfully',
+      result
+    });
+    
+  } catch (error) {
+    console.error('Create result error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 router.put('/:id', protect, authorize('admin', 'teacher'), async (req, res) => {
   try {
     const { id } = req.params;

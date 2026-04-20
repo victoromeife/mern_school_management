@@ -46,7 +46,7 @@ const TeacherDashboard = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-      <div className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-6 text-white">
+      <div className="bg-gradient-to-r from-primary-500 to-accent-500 dark:from-primary-600 dark:to-accent-600 rounded-2xl p-6 text-white shadow-lg">
         <h1 className="text-2xl font-bold">Welcome back, {user?.name || 'Teacher'}!</h1>
         <p className="text-primary-100 mt-1">Track your classes and student progress.</p>
       </div>

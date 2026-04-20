@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MagnifyingGlassIcon,
@@ -11,20 +11,50 @@ import {
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import api from '../../services/api';
+import { formatDistanceToNow } from 'date-fns';
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const { user } = useAuth();
   const { theme, toggleTheme, isDark } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Notifications
-  const notifications = [
-    { id: 1, title: 'New assignment posted: Math Homework', time: '5 min ago', read: false },
-    { id: 2, title: 'Parent-teacher meeting scheduled', time: '1 hour ago', read: false },
-    { id: 3, title: 'Grade published for Science exam', time: '2 hours ago', read: true },
-    { id: 4, title: 'School event: Sports Day', time: '1 day ago', read: true },
-  ];
+  // Fetch notifications
+  useEffect(() => {
+    if (user) {
+      fetchNotifications();
+    }
+  }, [user]);
+
+  const fetchNotifications = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/announcements?limit=10');
+      const announcements = response.data.announcements || [];
+      
+      // Convert announcements to notification format
+      const notificationItems = announcements.slice(0, 10).map(announcement => ({
+        id: announcement._id,
+        title: announcement.title,
+        content: announcement.content,
+        time: formatDistanceToNow(new Date(announcement.createdAt), { addSuffix: true }),
+        read: false, // You might want to track read status in the backend
+        type: announcement.priority === 'urgent' ? 'urgent' : 'normal',
+        author: announcement.author?.name || 'School Admin'
+      }));
+      
+      setNotifications(notificationItems);
+    } catch (error) {
+      console.error('Failed to fetch notifications');
+      // Fallback to empty array
+      setNotifications([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const unreadCount = notifications.filter(n => !n.read).length;
 

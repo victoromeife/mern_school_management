@@ -21,8 +21,10 @@ const Schedule = lazy(() => import('./pages/Schedule'));
 const Assignments = lazy(() => import('./pages/Assignments'));
 const Announcements = lazy(() => import('./pages/Announcements'));
 const Events = lazy(() => import('./pages/Events'));
+const Attendance = lazy(() => import('./pages/Attendance'));
 const Exams = lazy(() => import('./pages/Exams'));
 const Results = lazy(() => import('./pages/Results'));
+const Grades = lazy(() => import('./pages/Grades'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -66,15 +68,17 @@ function App() {
                   <Route path="/" element={<ProtectedRoute />}>
                     <Route path="/" element={<Layout />}>
                       <Route index element={<Dashboard />} />
-                      <Route path="users" element={<Users />} />
-                      <Route path="classes" element={<Classes />} />
-                      <Route path="subjects" element={<Subjects />} />
+                      <Route path="users" element={<ProtectedRoute requiredRoles={['admin']}><Users /></ProtectedRoute>} />
+                      <Route path="classes" element={<ProtectedRoute requiredRoles={['admin', 'teacher']}><Classes /></ProtectedRoute>} />
+                      <Route path="subjects" element={<ProtectedRoute requiredRoles={['admin', 'teacher']}><Subjects /></ProtectedRoute>} />
                       <Route path="schedule" element={<Schedule />} />
                       <Route path="exams" element={<Exams />} />
                       <Route path="results" element={<Results />} />
+                      <Route path="grades" element={<ProtectedRoute requiredRoles={['admin']}><Grades /></ProtectedRoute>} />
                       <Route path="assignments" element={<Assignments />} />
                       <Route path="announcements" element={<Announcements />} />
                       <Route path="events" element={<Events />} />
+                      <Route path="attendance" element={<Attendance />} />
                       <Route path="settings" element={<Settings />} />
                       <Route path="profile" element={<Profile />} />
                     </Route>

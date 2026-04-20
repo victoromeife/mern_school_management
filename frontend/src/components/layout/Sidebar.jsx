@@ -5,7 +5,7 @@ import {
   HomeIcon, UsersIcon, BookOpenIcon, AcademicCapIcon,
   CalendarIcon, ClipboardDocumentListIcon, MegaphoneIcon,
   Cog6ToothIcon, ArrowRightOnRectangleIcon, ChevronLeftIcon, ChevronRightIcon,
-  ChartBarIcon,
+  ChartBarIcon, UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
 
@@ -35,6 +35,70 @@ const Sidebar = ({ isOpen, setIsOpen, collapsed, setCollapsed }) => {
       setIsOpen(false);
     }
   };
+
+  // Role-based navigation
+  const getNavigation = () => {
+    const baseNav = [
+      { name: 'Dashboard', href: '/', icon: HomeIcon },
+    ];
+
+    switch (user?.role) {
+      case 'admin':
+        return [
+          ...baseNav,
+          { name: 'Users', href: '/users', icon: UsersIcon },
+          { name: 'Classes', href: '/classes', icon: BookOpenIcon },
+          { name: 'Subjects', href: '/subjects', icon: AcademicCapIcon },
+          { name: 'Grades', href: '/grades', icon: AcademicCapIcon },
+          { name: 'Schedule', href: '/schedule', icon: CalendarIcon },
+          { name: 'Exams', href: '/exams', icon: AcademicCapIcon },
+          { name: 'Results', href: '/results', icon: ChartBarIcon },
+          { name: 'Assignments', href: '/assignments', icon: ClipboardDocumentListIcon },
+          { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
+          { name: 'Events', href: '/events', icon: CalendarIcon },
+        ];
+      
+      case 'teacher':
+        return [
+          ...baseNav,
+          { name: 'My Classes', href: '/classes', icon: BookOpenIcon },
+          { name: 'Subjects', href: '/subjects', icon: AcademicCapIcon },
+          { name: 'Schedule', href: '/schedule', icon: CalendarIcon },
+          { name: 'Attendance', href: '/attendance', icon: UserGroupIcon },
+          { name: 'Exams', href: '/exams', icon: AcademicCapIcon },
+          { name: 'Results', href: '/results', icon: ChartBarIcon },
+          { name: 'Assignments', href: '/assignments', icon: ClipboardDocumentListIcon },
+          { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
+          { name: 'Events', href: '/events', icon: CalendarIcon },
+        ];
+      
+      case 'student':
+        return [
+          ...baseNav,
+          { name: 'My Schedule', href: '/schedule', icon: CalendarIcon },
+          { name: 'Attendance', href: '/attendance', icon: UserGroupIcon },
+          { name: 'Exams', href: '/exams', icon: AcademicCapIcon },
+          { name: 'Results', href: '/results', icon: ChartBarIcon },
+          { name: 'Assignments', href: '/assignments', icon: ClipboardDocumentListIcon },
+          { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
+          { name: 'Events', href: '/events', icon: CalendarIcon },
+        ];
+      
+      case 'parent':
+        return [
+          ...baseNav,
+          { name: 'Children\'s Results', href: '/results', icon: ChartBarIcon },
+          { name: 'Attendance', href: '/attendance', icon: UserGroupIcon },
+          { name: 'Announcements', href: '/announcements', icon: MegaphoneIcon },
+          { name: 'Events', href: '/events', icon: CalendarIcon },
+        ];
+      
+      default:
+        return baseNav;
+    }
+  };
+
+  const navigation = getNavigation();
 
   return (
     <motion.aside

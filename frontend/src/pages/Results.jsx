@@ -7,12 +7,17 @@ import {
   TrophyIcon,
   DocumentTextIcon,
   UserGroupIcon,
-  MagnifyingGlassIcon  PrinterIcon,
-  ArrowDownTrayIcon,} from '@heroicons/react/24/outline';
+  MagnifyingGlassIcon,
+  PrinterIcon,
+  ArrowDownTrayIcon,
+  PlusIcon,} from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
 import Card from '../components/ui/Card';
 import { SkeletonTable } from '../components/ui/Skeleton';
+import ResultModal from '../components/results/ResultModal';
+import Button from '../components/ui/Button';
 import api from '../services/api';
+import toast from 'react-hot-toast';
 
 const Results = () => {
   const { user } = useAuth();
@@ -30,6 +35,10 @@ const Results = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredResults, setFilteredResults] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [exams, setExams] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     setFilteredResults(results.filter(result => 
@@ -72,10 +81,34 @@ const Results = () => {
       fetchStudentResults(user._id);
     } else {
       fetchAllResults();
+      if (user?.role === 'admin' || user?.role === 'teacher') {
+        fetchDataForModal(); // Fetch data needed for adding results
+      }
     }
   }, [user]);
 
   useEffect(() => {
+    if (selectedStudent) {
+      fetchStudentResults(selectedStudent);
+    }
+  }, [selectedStudent]);
+
+  const fetchDataForModal = async () => {
+    try {
+      const [examsRes, subjectsRes, classesRes, studentsRes] = await Promise.all([
+        api.get('/exams'),
+        api.get('/subjects'),
+        api.get('/classes'),
+        api.get('/users/students')
+      ]);
+      setExams(examsRes.data.exams || []);
+      setSubjects(subjectsRes.data.subjects || []);
+      setClasses(classesRes.data.classes || []);
+      setStudents(studentsRes.data.students || []);
+    } catch (error) {
+      console.error('Failed to fetch modal data:', error);
+    }
+  };
     if (selectedStudent) {
       fetchStudentResults(selectedStudent);
     }
@@ -86,7 +119,21 @@ const Results = () => {
       const response = await api.get('/users/children');
       setStudents(response.data);
       if (response.data.length > 0) {
-        setSelectedStudent(response.data[0]._id);
+        handleCreateResult = async (resultData) => {
+    try {
+      await api.post('/results', resultData);
+      toast.success('Result added successfully');
+      // Refresh results if we're viewing all results
+      if (user?.role === 'admin' || user?.role === 'teacher') {
+        fetchAllResults();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to add result');
+      throw error;
+    }
+  };
+
+  const setSelectedStudent(response.data[0]._id);
       }
     } catch (error) {
       console.error('Failed to load children');
@@ -186,6 +233,16 @@ const Results = () => {
       </motion.div>
     );
   }
+
+        {(user?.role === 'admin' || user?.role === 'teacher') && (
+          <Button
+            onClick={() => setModalOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <PlusIcon className="h-4 w-4" />
+            Add Result
+          </Button>
+        )}
 
   return (
     <motion.div
@@ -347,6 +404,17 @@ const Results = () => {
                     <td className="py-4 px-4">
                       <div>
                         <p className="font-medium text-surface-900 dark:text-white">{result.exam?.title}</p>
+
+      {/* Result Modal */}
+      <ResultModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleCreateResult}
+        exams={exams}
+        students={students}
+        subjects={subjects}
+        classes={classes}
+      />
                         <p className="text-sm text-surface-500 dark:text-surface-400">{result.class?.name} - {result.class?.section}</p>
                       </div>
                     </td>
