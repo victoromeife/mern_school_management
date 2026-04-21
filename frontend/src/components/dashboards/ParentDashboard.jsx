@@ -14,6 +14,7 @@ import RecentActivity from './RecentActivity';
 import UpcomingItems from './UpcomingItems';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import api from '../../services/api';
 
 const childrenData = [
@@ -56,6 +57,17 @@ const performanceData = [
 
 const ParentDashboard = () => {
     const { user } = useAuth();
+    const { theme, systemTheme } = useTheme();
+    const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark');
+    
+    const chartColors = {
+        gridStroke: isDark ? '#374151' : '#E5E7EB',
+        axisStroke: isDark ? '#9CA3AF' : '#6B7280',
+        tooltipBg: isDark ? '#1F2937' : 'white',
+        tooltipBorder: isDark ? '#374151' : '#E5E7EB',
+        tooltipText: isDark ? '#F3F4F6' : '#000000',
+    };
+
     const [stats, setStats] = useState({
         children: 0,
         avgAttendance: 0,
@@ -244,8 +256,8 @@ const ParentDashboard = () => {
                     <div key={child.name} className="bg-white dark:bg-surface-800 rounded-xl shadow-sm border border-surface-200 dark:border-surface-700 p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div>
-                                <h3 className="text-lg font-semibold text-surface-900">{child.name}</h3>
-                                <p className="text-sm text-surface-500">Class {child.grade}</p>
+                                <h3 className="text-lg font-semibold text-surface-900 dark:text-surface-100">{child.name}</h3>
+                                <p className="text-sm text-surface-500 dark:text-surface-400">Class {child.grade}</p>
                             </div>
                             <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
                                 <span className="text-primary-600 font-bold text-lg">{child.name.charAt(0)}</span>
@@ -269,14 +281,15 @@ const ParentDashboard = () => {
             <ChartCard title="Subject Performance Comparison">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={performanceData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                        <XAxis dataKey="subject" stroke="#6B7280" />
-                        <YAxis domain={[0, 100]} stroke="#6B7280" />
+                        <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+                        <XAxis dataKey="subject" stroke={chartColors.axisStroke} />
+                        <YAxis domain={[0, 100]} stroke={chartColors.axisStroke} />
                         <Tooltip 
                             contentStyle={{ 
-                                backgroundColor: 'white', 
-                                border: '1px solid #E5E7EB',
-                                borderRadius: '0.5rem'
+                                backgroundColor: chartColors.tooltipBg, 
+                                border: `1px solid ${chartColors.tooltipBorder}`,
+                                borderRadius: '0.5rem',
+                                color: chartColors.tooltipText
                           }}
                         />
                         <Bar dataKey="emma" fill="#6366F1" radius={[8, 8, 0, 0]} />

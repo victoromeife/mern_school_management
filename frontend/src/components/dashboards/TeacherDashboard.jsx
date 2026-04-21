@@ -20,6 +20,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const classPerformance = [
   { class: '10A', average: 85 },
@@ -30,6 +31,17 @@ const classPerformance = [
 
 const TeacherDashboard = () => {
   const { user } = useAuth();
+  const { theme, systemTheme } = useTheme();
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark');
+  
+  const chartColors = {
+    gridStroke: isDark ? '#374151' : '#E5E7EB',
+    axisStroke: isDark ? '#9CA3AF' : '#6B7280',
+    tooltipBg: isDark ? '#1F2937' : 'white',
+    tooltipBorder: isDark ? '#374151' : '#E5E7EB',
+    tooltipText: isDark ? '#F3F4F6' : '#000000',
+  };
+
   const [stats] = useState({
     totalStudents: 156,
     totalClasses: 4,
@@ -67,10 +79,16 @@ const TeacherDashboard = () => {
       <ChartCard title="Class Performance Overview">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={classPerformance}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis dataKey="class" stroke="#6B7280" />
-            <YAxis stroke="#6B7280" domain={[0, 100]} />
-            <Tooltip />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+            <XAxis dataKey="class" stroke={chartColors.axisStroke} />
+            <YAxis stroke={chartColors.axisStroke} domain={[0, 100]} />
+            <Tooltip 
+              contentStyle={{ 
+                backgroundColor: chartColors.tooltipBg, 
+                border: `1px solid ${chartColors.tooltipBorder}`,
+                color: chartColors.tooltipText
+              }}
+            />
             <Bar dataKey="average" fill="#6366F1" radius={[8, 8, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>

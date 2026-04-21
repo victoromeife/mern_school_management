@@ -23,6 +23,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import api from '../../services/api';
 
 const performanceData = [
@@ -44,6 +45,17 @@ const progressData = [
 
 const StudentDashboard = () => {
   const { user } = useAuth();
+  const { theme, systemTheme } = useTheme();
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark');
+  
+  const chartColors = {
+    gridStroke: isDark ? '#374151' : '#E5E7EB',
+    axisStroke: isDark ? '#9CA3AF' : '#6B7280',
+    tooltipBg: isDark ? '#1F2937' : 'white',
+    tooltipBorder: isDark ? '#374151' : '#E5E7EB',
+    tooltipText: isDark ? '#F3F4F6' : '#000000',
+  };
+
   const [stats, setStats] = useState({
     gpa: 0,
     attendance: 0,
@@ -170,10 +182,16 @@ const StudentDashboard = () => {
         <ChartCard title="Subject Performance">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={performanceData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis type="number" domain={[0, 100]} stroke="#6B7280" />
-              <YAxis dataKey="subject" type="category" stroke="#6B7280" />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+              <XAxis type="number" domain={[0, 100]} stroke={chartColors.axisStroke} />
+              <YAxis dataKey="subject" type="category" stroke={chartColors.axisStroke} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: chartColors.tooltipBg, 
+                  border: `1px solid ${chartColors.tooltipBorder}`,
+                  color: chartColors.tooltipText
+                }}
+              />
               <Bar dataKey="score" fill="#6366F1" radius={[0, 8, 8, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -182,10 +200,16 @@ const StudentDashboard = () => {
         <ChartCard title="Progress Over Time">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={progressData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis dataKey="month" stroke="#6B7280" />
-              <YAxis domain={[0, 100]} stroke="#6B7280" />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+              <XAxis dataKey="month" stroke={chartColors.axisStroke} />
+              <YAxis domain={[0, 100]} stroke={chartColors.axisStroke} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: chartColors.tooltipBg, 
+                  border: `1px solid ${chartColors.tooltipBorder}`,
+                  color: chartColors.tooltipText
+                }}
+              />
               <Line type="monotone" dataKey="grade" stroke="#10B981" strokeWidth={2} dot={{ fill: '#10B981' }} />
             </LineChart>
           </ResponsiveContainer>

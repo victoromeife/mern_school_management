@@ -19,6 +19,7 @@ import {
     PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const enrollmentData = [
     { 
@@ -101,6 +102,17 @@ const gradeDistribution = [
 
 const AdminDashboard = () => {
     const { user } = useAuth();
+    const { theme, systemTheme } = useTheme();
+    const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark');
+    
+    const chartColors = {
+        gridStroke: isDark ? '#374151' : '#E5E7EB',
+        axisStroke: isDark ? '#9CA3AF' : '#6B7280',
+        tooltipBg: isDark ? '#1F2937' : 'white',
+        tooltipBorder: isDark ? '#374151' : '#E5E7EB',
+        tooltipText: isDark ? '#F3F4F6' : '#000000',
+    };
+    
     const [stats, setStats] = useState({
         totalStudents: 425,
         totalTeachers: 32,
@@ -187,14 +199,15 @@ const AdminDashboard = () => {
                 <ChartCard title="Enrollment Trends">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={enrollmentData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                            <XAxis dataKey="month" stroke="#6B7280" />
-                            <YAxis stroke="#6B7280" />
+                            <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+                            <XAxis dataKey="month" stroke={chartColors.axisStroke} />
+                            <YAxis stroke={chartColors.axisStroke} />
                             <Tooltip 
                                 contentStyle={{ 
-                                    backgroundColor: 'white', 
-                                    border: '1px solid #E5E7EB',
-                                    borderRadius: '0.5rem'
+                                    backgroundColor: chartColors.tooltipBg, 
+                                    border: `1px solid ${chartColors.tooltipBorder}`,
+                                    borderRadius: '0.5rem',
+                                    color: chartColors.tooltipText
                                 }}
                             />
                             <Line 
@@ -243,14 +256,15 @@ const AdminDashboard = () => {
             <ChartCard title="Grade Distribution">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={gradeDistribution}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                        <XAxis dataKey="grade" stroke="#6B7280" />
-                        <YAxis stroke="#6B7280" />
+                        <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+                        <XAxis dataKey="grade" stroke={chartColors.axisStroke} />
+                        <YAxis stroke={chartColors.axisStroke} />
                         <Tooltip 
                             contentStyle={{ 
-                                backgroundColor: 'white', 
-                                border: '1px solid #E5E7EB',
-                                borderRadius: '0.5rem'
+                                backgroundColor: chartColors.tooltipBg, 
+                                border: `1px solid ${chartColors.tooltipBorder}`,
+                                borderRadius: '0.5rem',
+                                color: chartColors.tooltipText
                             }}
                         />
                         <Bar dataKey="count" radius={[8, 8, 0, 0]}>
