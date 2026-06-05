@@ -20,7 +20,7 @@ const app = express();
 // ========== CORS FIX ==========
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://mern-school-management-two.vercel.app'
+  'https://mern-school-management-two.vercel.app', 
   'https://mern-school-management-two-brown.vercel.app'
 ];
 
