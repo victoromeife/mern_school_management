@@ -21,6 +21,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://mern-school-management-two.vercel.app'
+  'https://mern-school-management-two-brown.vercel.app'
 ];
 
 app.use(cors({
