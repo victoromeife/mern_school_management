@@ -17,8 +17,27 @@ const gradeRoutes = require('./routes/gradeRoutes');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ========== CORS FIX ==========
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://mern-school-management-two.vercel.app'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+// ==============================
+
 app.use(express.json());
 
 // MongoDB Connection
